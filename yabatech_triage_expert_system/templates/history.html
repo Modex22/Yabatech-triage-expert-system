@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Recent records · YABATECH Triage Demo{% endblock %}
+{% block content %}
+<section class="hero">
+  <p class="eyebrow">LOCAL SQLITE DATABASE</p>
+  <h1>Recent assessment records</h1>
+  <p>Only limited assessment fields are stored. Do not enter names, matriculation numbers, or identifying details in this teaching prototype.</p>
+</section>
+<section class="panel table-wrap">
+  {% if records %}
+  <table>
+    <thead><tr><th>ID / Date</th><th>Temp °C</th><th>Urgency</th><th>Referral</th><th>Rule</th><th>CF</th></tr></thead>
+    <tbody>
+    {% for r in records %}
+      <tr><td>#{{ r.id }}<br><span class="help">{{ r.created_at }}</span></td><td>{{ '%.1f'|format(r.temperature) }}</td><td><span class="urgency {{ r.urgency|lower }}">{{ r.urgency }}</span></td><td>{{ r.referral.replace('_', ' ') }}</td><td>{{ r.rule_id }}</td><td>{{ '%.2f'|format(r.certainty_factor) }}</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p>No records yet. Submit a test assessment to populate the database.</p>
+  {% endif %}
+</section>
+{% endblock %}
